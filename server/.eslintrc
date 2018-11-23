@@ -1,0 +1,28 @@
+{
+  "rules": {
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-use-before-define": [
+      2,
+      "nofunc"
+    ],
+    "no-unused-vars": 1,
+    "no-console": 1
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended"
+  ]
+}

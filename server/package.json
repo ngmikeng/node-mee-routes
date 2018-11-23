@@ -1,0 +1,57 @@
+{
+  "name": "node-mee-routes-server",
+  "version": "0.1.0",
+  "description": "Express rest api starter project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "dev": "nodemon -e js --exec \"npm run lint && npm run start\"",
+    "lint": "./node_modules/.bin/eslint . --ext .js",
+    "test": "cross-env NODE_ENV=test mocha src/test/**/*.test.js"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "starter"
+  ],
+  "nodemonConfig": {
+    "ignore": ["src/test/**/*"],
+    "delay": "2500"
+  },
+  "author": "Minh Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
+    "express-validation": "^1.0.2",
+    "helmet": "^3.10.0",
+    "http-status": "^1.0.1",
+    "joi": "10.0.6",
+    "jsonwebtoken": "^8.1.1",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.0.17",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.3",
+    "socket.io": "^2.1.1",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^3.0.9",
+    "winston": "^3.0.0-rc5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
+  }
+}
