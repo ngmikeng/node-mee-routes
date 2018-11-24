@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.1.8",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
@@ -30,7 +31,9 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "no-mixed-spaces-and-tabs": "off"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

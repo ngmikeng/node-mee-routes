@@ -1,16 +1,28 @@
 <template>
   <div id="app">
-    <Layout />
+    <a-layout>
+      <Header />
+      <a-layout>
+        <Sider />
+        <a-layout-content>
+          <!-- <MainContent /> -->
+          <router-view></router-view>
+        </a-layout-content>
+      </a-layout>
+      <a-layout-footer>Mee Routes </a-layout-footer>
+    </a-layout>
   </div>
 </template>
 
 <script>
-import Layout from './components/Layout.vue'
+import Header from './components/Header.vue';
+import Sider from './components/Sider.vue';
 
 export default {
   name: 'app',
   components: {
-    Layout
+    Header,
+    Sider
   }
 }
 </script>

@@ -16,7 +16,9 @@
     "starter"
   ],
   "nodemonConfig": {
-    "ignore": ["src/test/**/*"],
+    "ignore": [
+      "src/test/**/*"
+    ],
     "delay": "2500"
   },
   "author": "Minh Nguyen",
