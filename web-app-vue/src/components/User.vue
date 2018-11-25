@@ -16,6 +16,5 @@ export default {
 
 <style>
 .user-component {
-	padding: 20px;
 }
 </style>

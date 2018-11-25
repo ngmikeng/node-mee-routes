@@ -4,12 +4,12 @@
       <Header />
       <a-layout>
         <Sider />
-        <a-layout-content>
+        <a-layout-content class="main-content">
           <!-- <MainContent /> -->
           <router-view></router-view>
         </a-layout-content>
       </a-layout>
-      <a-layout-footer>Mee Routes </a-layout-footer>
+      <a-layout-footer class="footer">Mee Routes </a-layout-footer>
     </a-layout>
   </div>
 </template>
@@ -32,7 +32,14 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+}
+
+.footer {
+  text-align: center;
+}
+
+.main-content {
+  padding:  20px;
 }
 </style>

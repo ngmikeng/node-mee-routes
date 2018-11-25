@@ -16,6 +16,5 @@ export default {
 
 <style>
 .map-view-component {
-    padding: 20px;
 }
 </style>
