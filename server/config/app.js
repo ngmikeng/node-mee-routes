@@ -13,6 +13,7 @@ const APIError = require('../src/helpers/errorHandlers/APIError');
 const responseHandler = require('../src/helpers/responseHandler/index');
 const routes = require('../src/routes/index.route');
 const configMongo = require('./databases/mongodb');
+const configMySQL = require('./databases/mysql');
 
 const app = express();
 
@@ -47,6 +48,10 @@ if (config.isUseMongo) {
         error: err
       });
     });
+}
+
+if (config.isUseMySQL) {
+  configMySQL.createInstance();
 }
 
 // config swagger api
