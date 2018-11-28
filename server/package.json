@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "start-dev": "npm run lint && npm run start",
     "watch": "nodemon server.js",
     "dev": "nodemon -e js --exec \"npm run lint && npm run start\"",
     "lint": "./node_modules/.bin/eslint . --ext .js",
@@ -41,6 +42,7 @@
     "method-override": "^2.3.10",
     "mongoose": "^5.0.17",
     "morgan": "^1.9.0",
+    "mysql2": "^1.6.4",
     "nodemon": "^1.17.3",
     "sequelize": "^4.41.2",
     "socket.io": "^2.1.1",

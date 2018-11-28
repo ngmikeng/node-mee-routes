@@ -37,7 +37,7 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
-// handle mongo
+// connect to mongodb
 if (config.isUseMongo) {
   configMongo.createConnection()
     .then(() => {
@@ -50,8 +50,10 @@ if (config.isUseMongo) {
     });
 }
 
+// connect to mysql
 if (config.isUseMySQL) {
   configMySQL.createInstance();
+  configMySQL.testConnection();
 }
 
 // config swagger api
