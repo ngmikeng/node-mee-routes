@@ -27,7 +27,7 @@ module.exports = {
       sequelizeInstance
         .authenticate()
         .then(() => {
-          winstonLogger.info("Connection has been established successfully.");
+          winstonLogger.info("MySQL DB connection has been established successfully.");
         })
         .catch(err => {
           winstonLogger.error("Unable to connect to the database:", {

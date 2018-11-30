@@ -11,7 +11,6 @@ const winstonLogger = require('./winston');
 const config = require('./config');
 const APIError = require('../src/helpers/errorHandlers/APIError');
 const responseHandler = require('../src/helpers/responseHandler/index');
-const routes = require('../src/routes/index.route');
 const configMongo = require('./databases/mongodb');
 const configMySQL = require('./databases/mysql');
 
@@ -59,6 +58,7 @@ if (config.isUseMySQL) {
 // config swagger api
 require('./swagger')(app);
 
+const routes = require('../src/routes/index.route');
 // mount all routes on /api path
 app.use('/api/v1', routes);
 
