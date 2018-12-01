@@ -1,4 +1,4 @@
-const Driver = require('../models/driver.model');
+const ClientRequest = require('../models/client-request.model');
 const responseHandler = require('../helpers/responseHandler/index');
 
 module.exports = {
@@ -6,6 +6,6 @@ module.exports = {
 };
 
 function getList(req, res, next) {
-  Driver.findAll()
+  ClientRequest.findAll()
     .then(result => res.json(responseHandler.responseSuccess(result)));
 }

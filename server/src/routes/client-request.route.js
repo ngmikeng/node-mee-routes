@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const expressJwt = require('express-jwt');
 const authCtrl = require('../controllers/auth.controller');
-const driverCtrl = require('../controllers/driver.controller');
+const clientRequestCtrl = require('../controllers/client-request.controller');
 const config = require('../../config/config');
 
 router.route('/')
-  .get(driverCtrl.getList);
+  .get(clientRequestCtrl.getList);
 
 module.exports = router;

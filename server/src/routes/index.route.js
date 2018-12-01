@@ -2,6 +2,7 @@ const express = require('express');
 const authRoutes = require('./auth.route');
 const userRoutes = require('./user.route');
 const driverRoutes = require('./driver.route');
+const clientRequestRoutes = require('./client-request.route');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -26,5 +27,6 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 
 router.use('/driver', driverRoutes);
+router.use('/client-request', clientRequestRoutes);
 
 module.exports = router;
