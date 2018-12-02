@@ -26,7 +26,7 @@ router.use('/auth', authRoutes);
 // mount user routes at /users
 router.use('/users', userRoutes);
 
-router.use('/driver', driverRoutes);
-router.use('/client-request', clientRequestRoutes);
+router.use('/drivers', driverRoutes);
+router.use('/client-requests', clientRequestRoutes);
 
 module.exports = router;
