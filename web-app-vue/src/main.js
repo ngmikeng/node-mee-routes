@@ -5,6 +5,7 @@ import App from './App.vue'
 import CustomerPoints from './components/CustomerPoints.vue'
 import MapView from './components/MapView.vue'
 import User from './components/User.vue'
+import Driver from './components/Driver.vue'
 import './styles/main.css'
 
 Vue.use(VueRouter)
@@ -35,7 +36,8 @@ const router = new VueRouter({
     { path: '/', redirect: '/map-view' },
     { path: '/map-view', component: MapView },
     { path: '/customer-points', component: CustomerPoints },
-    { path: '/user', component: User }
+    { path: '/user', component: User },
+    { path: '/driver', component: Driver }
   ]
 })
 

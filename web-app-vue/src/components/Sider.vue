@@ -30,6 +30,11 @@ const menus = [
     name: 'Customer Points',
     path: '/customer-points',
     icon: 'dashboard'
+  },
+  {
+    name: 'Driver',
+    path: '/driver',
+    icon: 'car'
   }
 ];
 
