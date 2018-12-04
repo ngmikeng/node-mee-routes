@@ -20,6 +20,32 @@
         </a-popconfirm>
       </template>
     </a-table>
+    <a-modal
+      title="Driver"
+      :visible="modalState.visible"
+      @ok="handleOkModal"
+      :confirmLoading="modalState.confirmLoading"
+      @cancel="handleCancelModal"
+    >
+      <a-form @submit="handleOkModal" layout="vertical" :autoFormCreate="(form)=>{this.form = form}">
+        <a-form-item
+          label='Name'
+          fieldDecoratorId="name"
+          :fieldDecoratorOptions="{rules: [{ required: true, message: 'Please input driver name!' }]}"
+        >
+          <a-input />
+        </a-form-item>
+        <a-form-item
+          label='Status'
+          fieldDecoratorId="status"
+        >
+          <a-select @change="handleStatusChange">
+            <a-select-option value="online">Online</a-select-option>
+            <a-select-option value="offline">Offline</a-select-option>
+          </a-select>
+        </a-form-item>
+      </a-form>
+    </a-modal>
 	</div>
 </template>
 
@@ -82,7 +108,7 @@ export default {
           this.data = result.data.data;
           this.pagination = pagination;
         }
-      }).catch(err => this.loading = false);
+      }).catch(() => this.loading = false);
     },
     handleTableChange (pagination, filters, sorter) {
       const pager = { ...this.pagination };
@@ -96,15 +122,30 @@ export default {
         ...filters,
       });
     },
+    handleStatusChange (value) {
+      this.form.setFieldsValue({
+        status: value,
+      })
+    },
     openModal () {
       this.modalState.visible = true;
     },
-    handleOkModal () {
-      this.modalState.confirmLoading = true;
-      setTimeout(() => {
-        this.modalState.visible = false;
-        this.modalState.confirmLoading = false;
-      }, 2000);
+    handleOkModal (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          axios({
+            url: 'http://localhost:5858/api/v1/drivers',
+            method: 'post',
+            data: values,
+            type: 'json',
+          }).then(() => {
+            this.modalState.visible = false;
+            this.modalState.confirmLoading = false;
+            this.fetch();
+          }).catch(() => this.modalState.confirmLoading = false);
+        }
+      })
     },
     handleCancelModal () {
       this.modalState.visible = false;

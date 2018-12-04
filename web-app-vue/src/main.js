@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { Button, Icon, Layout, Menu, Table, Popconfirm, Modal, Form, Input } from 'ant-design-vue';
+import { Button, Icon, Layout, Menu, Table, Popconfirm, Modal, Form, Input, Select } from 'ant-design-vue';
 import App from './App.vue'
 import CustomerPoints from './components/CustomerPoints.vue'
 import MapView from './components/MapView.vue'
@@ -26,6 +26,8 @@ Vue.component(Modal.name, Modal)
 Vue.component(Form.name, Form)
 Vue.component(Form.Item.name, Form.Item)
 Vue.component(Input.name, Input)
+Vue.component(Select.name, Select)
+Vue.component(Select.Option.name, Select.Option)
 
 Vue.config.productionTip = false
 
