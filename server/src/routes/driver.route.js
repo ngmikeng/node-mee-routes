@@ -52,4 +52,7 @@ router.route('/')
   .get(driverCtrl.getList)
   .post(driverCtrl.createOne);
 
+router.route('/:driverId')
+  .delete(driverCtrl.deleteById);
+
 module.exports = router;

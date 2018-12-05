@@ -15,7 +15,7 @@
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
-          @confirm="() => { handleDelete(record.key) }">
+          @confirm="() => { handleDelete(record.id) }">
           <a-button type="danger">Delete</a-button>
         </a-popconfirm>
       </template>
@@ -149,6 +149,15 @@ export default {
     },
     handleCancelModal () {
       this.modalState.visible = false;
+    },
+    handleDelete(id) {
+      axios({
+        url: `http://localhost:5858/api/v1/drivers/${id}`,
+        method: 'delete',
+        type: 'json',
+      }).then(() => {
+        this.fetch();
+      });
     }
   }
 }
