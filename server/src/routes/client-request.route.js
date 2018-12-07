@@ -58,4 +58,26 @@ router.route('/')
   .get(clientRequestCtrl.getList)
   .post(clientRequestCtrl.createOne);
 
+/**
+ * @swagger
+ * /client-requests/:requestId:
+ *  delete:
+ *    tags: ["client-requests"]
+ *    summary: Delete a client request by id
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: requestId
+ *        in: path
+ */
+router.route('/:requestId')
+  .delete(clientRequestCtrl.deleteById);
+
 module.exports = router;

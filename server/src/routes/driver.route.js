@@ -52,6 +52,26 @@ router.route('/')
   .get(driverCtrl.getList)
   .post(driverCtrl.createOne);
 
+
+/**
+ * @swagger
+ * /drivers/:driverId:
+ *  delete:
+ *    tags: ["driver"]
+ *    summary: Delete a driver by id
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: driverId
+ *        in: path
+ */
 router.route('/:driverId')
   .delete(driverCtrl.deleteById);
 
