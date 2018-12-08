@@ -60,7 +60,7 @@ router.route('/')
 
 /**
  * @swagger
- * /client-requests/:requestId:
+ * /client-requests/{requestId}:
  *  delete:
  *    tags: ["client-requests"]
  *    summary: Delete a client request by id

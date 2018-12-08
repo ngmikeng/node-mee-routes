@@ -55,7 +55,7 @@ router.route('/')
 
 /**
  * @swagger
- * /drivers/:driverId:
+ * /drivers/{driverId}:
  *  delete:
  *    tags: ["driver"]
  *    summary: Delete a driver by id
