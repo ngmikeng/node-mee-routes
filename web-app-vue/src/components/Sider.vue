@@ -17,6 +17,16 @@
 <script>
 const menus = [
   {
+    name: 'Customer Requests',
+    path: '/customer-requests',
+    icon: 'dashboard'
+  },
+  {
+    name: 'Driver',
+    path: '/driver',
+    icon: 'car'
+  },
+  {
     name: 'Map View',
     path: '/map-view',
     icon: 'calendar'
@@ -25,16 +35,6 @@ const menus = [
     name: 'User',
     path: '/user',
     icon: 'user'
-  },
-  {
-    name: 'Customer Points',
-    path: '/customer-points',
-    icon: 'dashboard'
-  },
-  {
-    name: 'Driver',
-    path: '/driver',
-    icon: 'car'
   }
 ];
 

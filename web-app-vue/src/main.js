@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { Button, Icon, Layout, Menu, Table, Popconfirm, Modal, Form, Input, Select } from 'ant-design-vue';
+import {
+  Button, Icon, Layout, Menu, Table, Popconfirm,
+  Modal, Form, Input, Select, Card, Row, Col
+} from 'ant-design-vue';
 import App from './App.vue'
 import DefaultLayout from './layouts/DefaultLayout.vue'
-import CustomerPoints from './components/CustomerPoints.vue'
+import CustomerRequests from './components/CustomerRequests.vue'
 import LoginPage from './pages/LoginPage.vue'
 import MapView from './components/MapView.vue'
 import User from './components/User.vue'
@@ -30,6 +33,9 @@ Vue.component(Form.Item.name, Form.Item)
 Vue.component(Input.name, Input)
 Vue.component(Select.name, Select)
 Vue.component(Select.Option.name, Select.Option)
+Vue.component(Card.name, Card)
+Vue.component(Row.name, Row)
+Vue.component(Col.name, Col)
 
 Vue.config.productionTip = false
 
@@ -43,7 +49,7 @@ const router = new VueRouter({
       redirect: 'driver',
       children: [
         { path: 'map-view', component: MapView },
-        { path: 'customer-points', component: CustomerPoints },
+        { path: 'customer-requests', component: CustomerRequests },
         { path: 'user', component: User },
         { path: 'driver', component: Driver }
       ]

@@ -1,4 +1,11 @@
+body {
+  background: #f0f2f5;
+}
 
 .g-margin-bot-10 {
   margin-bottom: 10px;
+}
+
+.g-text-center {
+  text-align: center;
 }

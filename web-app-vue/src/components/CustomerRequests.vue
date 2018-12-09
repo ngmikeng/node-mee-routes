@@ -1,30 +1,27 @@
 <template>
-  <div class="customer-points-component">
-    <h1 class="header">Customer Points</h1>
+  <div class="customer-requests-component">
+    <h1 class="header">Customer Requests</h1>
     <div class="g-margin-bot-10">
-      <a-button type="primary" @click="openModal">Add a Point</a-button>
+      <a-button type="primary" @click="openModal">Add a Request</a-button>
     </div>
     <a-table :columns="columns"
-      :rowKey="record => { return record.login.uuid }"
+      :rowKey="record => { return record.id }"
       :dataSource="data"
       :pagination="pagination"
       :loading="loading"
       @change="handleTableChange"
     >
-      <template slot="name" slot-scope="name">
-        {{name.first}} {{name.last}}
-      </template>
       <template slot="operation" slot-scope="text, record">
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
-          @confirm="() => { handleDelete(record.key) }">
+          @confirm="() => { handleDelete(record.id) }">
           <a-button type="danger">Delete</a-button>
         </a-popconfirm>
       </template>
     </a-table>
     <a-modal
-      title="Customer Point"
+      title="Customer Request"
       :visible="modalState.visible"
       @ok="handleOkModal"
       :confirmLoading="modalState.confirmLoading"
@@ -35,6 +32,25 @@
           label='Name'
           fieldDecoratorId="name"
           :fieldDecoratorOptions="{rules: [{ required: true, message: 'Please input customer name!' }]}"
+        >
+          <a-input />
+        </a-form-item>
+        <a-form-item
+          label='Pick up address'
+          fieldDecoratorId="pickupAddress"
+          :fieldDecoratorOptions="{rules: [{ required: true, message: 'Please input pick up address!' }]}"
+        >
+          <a-input />
+        </a-form-item>
+        <a-form-item
+          label='Destination address'
+          fieldDecoratorId="destAddress"
+        >
+          <a-input />
+        </a-form-item>
+        <a-form-item
+          label='Phone number'
+          fieldDecoratorId="phone"
         >
           <a-input />
         </a-form-item>
@@ -50,25 +66,28 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { getList, createOne, deleteOne } from '../services/customer-request';
 
 const columns = [{
-  title: 'Name',
+  title: 'ID',
+  dataIndex: 'id',
+}, {
+  title: 'Customer name',
   dataIndex: 'name',
   sorter: true,
-  width: '20%',
-  scopedSlots: { customRender: 'name' },
+  width: '20%'
 }, {
-  title: 'Gender',
-  dataIndex: 'gender',
-  filters: [
-    { text: 'Male', value: 'male' },
-    { text: 'Female', value: 'female' },
-  ],
-  width: '20%',
+  title: 'Pick up address',
+  dataIndex: 'pickupAddress',
 }, {
-  title: 'Email',
-  dataIndex: 'email',
+  title: 'Destination address',
+  dataIndex: 'destAddress',
+}, {
+  title: 'Phone',
+  dataIndex: 'phone',
+}, {
+  title: 'Note',
+  dataIndex: 'note',
 }, {
   title: 'operation',
   dataIndex: 'operation',
@@ -76,7 +95,7 @@ const columns = [{
 }];
 
 export default {
-  name: 'customer-points-component',
+  name: 'customer-requests-component',
   components: {
   },
   mounted() {
@@ -110,39 +129,34 @@ export default {
     },
     handleDelete (id) {
       if (id) {
-        this.data = this.data.filter(item => item.id !== id)
+        deleteOne(id).then(() => {
+          this.fetch();
+        });
       }
     },
     fetch (params = {}) {
-      // console.log('params:', params);
       this.loading = true
-      axios({
-        url: 'https://randomuser.me/api',
-        method: 'get',
-        params: {
-          results: 10,
-          ...params,
-        },
-        type: 'json',
-      }).then((result) => {
-        if (result && result.data) {
-          const pagination = { ...this.pagination };
-          pagination.total = 200;
-          this.loading = false;
-          this.data = result.data.results;
-          this.pagination = pagination;
-        }
-      });
+      getList(params).then((result) => {
+        const pagination = { ...this.pagination };
+        this.loading = false;
+        this.data = result;
+        this.pagination = pagination;
+      }).catch(() => this.loading = false);
     },
     openModal () {
       this.modalState.visible = true;
     },
-    handleOkModal () {
-      this.modalState.confirmLoading = true;
-      setTimeout(() => {
-        this.modalState.visible = false;
-        this.modalState.confirmLoading = false;
-      }, 2000);
+    handleOkModal (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          createOne(values).then(() => {
+            this.modalState.visible = false;
+            this.modalState.confirmLoading = false;
+            this.fetch();
+          }).catch(() => this.modalState.confirmLoading = false);
+        }
+      })
     },
     handleCancelModal () {
       this.modalState.visible = false;
@@ -152,6 +166,6 @@ export default {
 </script>
 
 <style>
-.customer-points-component {
+.customer-requests-component {
 }
 </style>

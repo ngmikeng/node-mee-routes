@@ -6,20 +6,29 @@ const ClientRequest = sequelize.define('client_request', {
   name: {
     type: Sequelize.STRING
   },
+  pickupAddress: {
+    type: Sequelize.STRING
+  },
+  destAddress: {
+    type: Sequelize.STRING
+  },
+  pickupLat: {
+    type: Sequelize.STRING
+  },
+  pickupLong: {
+    type: Sequelize.STRING
+  },
+  destLat: {
+    type: Sequelize.STRING
+  },
+  destLong: {
+    type: Sequelize.STRING
+  },
   phone: {
     type: Sequelize.STRING
   },
-  address: {
-    type: Sequelize.TEXT
-  },
   note: {
     type: Sequelize.TEXT
-  },
-  lat: {
-    type: Sequelize.FLOAT
-  },
-  long: {
-    type: Sequelize.FLOAT
   },
   status: {
     type: Sequelize.STRING
@@ -32,7 +41,7 @@ ClientRequest.sync({force: true}).then(() => {
   return ClientRequest.create({
     name: 'Tran Thi B',
     phone: '0123456789',
-    address: '255 nvc',
+    pickupAddress: '255 nvc q5',
     status: 'non-identified'
   });
 });
