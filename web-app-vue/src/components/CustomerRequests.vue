@@ -12,6 +12,7 @@
       @change="handleTableChange"
     >
       <template slot="operation" slot-scope="text, record">
+        <a-button type="default" @click="openLocationModal" style="padding-right: 10px">Location</a-button>
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
@@ -20,6 +21,7 @@
         </a-popconfirm>
       </template>
     </a-table>
+
     <a-modal
       title="Customer Request"
       :visible="modalState.visible"
@@ -61,6 +63,16 @@
           <a-input type="textarea" />
         </a-form-item>
       </a-form>
+    </a-modal>
+
+    <a-modal
+      title="Location Idenfity"
+      :visible="modalLocationState.visible"
+      @ok="handleOkModal"
+      :confirmLoading="modalLocationState.confirmLoading"
+      @cancel="handleCancelLocationModal"
+    >
+      <div id="mapLocationIdentify" class="modal-map"></div>
     </a-modal>
   </div>
 </template>
@@ -108,6 +120,10 @@ export default {
       loading: false,
       columns,
       modalState: {
+        visible: false,
+        confirmLoading: false
+      },
+      modalLocationState: {
         visible: false,
         confirmLoading: false
       }
@@ -160,6 +176,22 @@ export default {
     },
     handleCancelModal () {
       this.modalState.visible = false;
+    },
+    openLocationModal() {
+      this.modalLocationState.visible = true;
+      setTimeout(() => {
+        this.initMap();
+      }, 500);
+    },
+    handleCancelLocationModal () {
+      this.modalLocationState.visible = false;
+    },
+    initMap() {
+      if (!this.map) {
+        const uluru = {lat: -25.344, lng: 131.036};
+        this.map = new window.google.maps.Map(document.getElementById('mapLocationIdentify'), {zoom: 4, center: uluru});
+        // const marker = new window.google.maps.Marker({position: uluru, map: map});
+      }
     }
   }
 }
@@ -167,5 +199,9 @@ export default {
 
 <style>
 .customer-requests-component {
+}
+.modal-map {
+  width: 100%;
+  height: 400px;
 }
 </style>
