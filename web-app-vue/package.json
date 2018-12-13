@@ -33,7 +33,9 @@
       "eslint:recommended"
     ],
     "rules": {
-      "no-mixed-spaces-and-tabs": "off"
+      "no-mixed-spaces-and-tabs": "off",
+      "no-unused-vars": 1,
+      "no-console": 1
     },
     "parserOptions": {
       "parser": "babel-eslint"

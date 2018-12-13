@@ -188,9 +188,28 @@ export default {
     },
     initMap() {
       if (!this.map) {
-        const uluru = {lat: -25.344, lng: 131.036};
-        this.map = new window.google.maps.Map(document.getElementById('mapLocationIdentify'), {zoom: 4, center: uluru});
-        // const marker = new window.google.maps.Marker({position: uluru, map: map});
+        const hcm = {lat:  10.762622, lng: 106.660172};
+        this.map = new window.google.maps.Map(document.getElementById('mapLocationIdentify'), {zoom: 15, center: hcm});
+        const marker = new window.google.maps.Marker({
+          position: hcm,
+          map: this.map,
+          draggable: true
+        });
+        this.map.addListener('click', (event) => {
+          const position = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+          };
+          marker.setPosition(position);
+          console.log(position);
+        });
+        marker.addListener('dragend', (event) => {
+          const position = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+          };
+          console.log(position);
+        });
       }
     }
   }
