@@ -61,6 +61,21 @@ router.route('/')
 /**
  * @swagger
  * /client-requests/{requestId}:
+ *  get:
+ *    tags: ["client-requests"]
+ *    summary: Get a client request by id
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: requestId
+ *        in: path
  *  delete:
  *    tags: ["client-requests"]
  *    summary: Delete a client request by id
@@ -78,6 +93,29 @@ router.route('/')
  *        in: path
  */
 router.route('/:requestId')
+  .get(clientRequestCtrl.getOne)
   .delete(clientRequestCtrl.deleteById);
+
+/**
+ * @swagger
+ * /client-requests/{requestId}/updatePickupLocation:
+ *  put:
+ *    tags: ["client-requests"]
+ *    summary: Update client request's pick up location
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: requestId
+ *        in: path
+ */
+router.route('/:requestId/updatePickupLocation')
+  .put(clientRequestCtrl.updatePickupLocation);
 
 module.exports = router;

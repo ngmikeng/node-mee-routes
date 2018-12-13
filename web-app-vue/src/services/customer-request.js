@@ -25,6 +25,22 @@ export const getList = (params = {}) => {
   })
 }
 
+export const getById = (id) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: `${API_BASE_URL}/${PATH}/${id}`,
+      method: 'get',
+      type: 'json'
+    }).then((result) => {
+      if (result && result.data && result.data.data) {
+        resolve(result.data.data);
+      } else {
+        resolve();
+      }
+    }).catch((err) => reject(err));
+  })
+}
+
 export const createOne = (payload) => {
   return new Promise((resolve, reject) => {
     axios({
@@ -47,6 +63,23 @@ export const deleteOne = (id) => {
     axios({
       url: `${API_BASE_URL}/${PATH}/${id}`,
       method: 'delete',
+      type: 'json',
+    }).then((result) => {
+      if (result && result.data && result.data.data) {
+        resolve(result.data.data);
+      } else {
+        resolve();
+      }
+    }).catch((err) => reject(err));
+  })
+}
+
+export const updatePickupLocation = (id, payload) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: `${API_BASE_URL}/${PATH}/${id}/updatePickupLocation`,
+      method: 'put',
+      data: payload,
       type: 'json',
     }).then((result) => {
       if (result && result.data && result.data.data) {

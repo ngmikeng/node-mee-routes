@@ -12,7 +12,7 @@
       @change="handleTableChange"
     >
       <template slot="operation" slot-scope="text, record">
-        <a-button type="default" @click="openLocationModal" style="padding-right: 10px">Location</a-button>
+        <a-button type="default" @click="() => { openLocationModal(record.id) }" style="padding-right: 10px">Location</a-button>
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
@@ -68,7 +68,7 @@
     <a-modal
       title="Location Idenfity"
       :visible="modalLocationState.visible"
-      @ok="handleOkModal"
+      @ok="handleOkLocationModal"
       :confirmLoading="modalLocationState.confirmLoading"
       @cancel="handleCancelLocationModal"
     >
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { getList, createOne, deleteOne } from '../services/customer-request';
+import { getList, getById, createOne, deleteOne, updatePickupLocation } from '../services/customer-request';
 
 const columns = [{
   title: 'ID',
@@ -177,14 +177,24 @@ export default {
     handleCancelModal () {
       this.modalState.visible = false;
     },
-    openLocationModal() {
+    openLocationModal(id) {
       this.modalLocationState.visible = true;
-      setTimeout(() => {
-        this.initMap();
-      }, 500);
+      getById(id).then((result) => {
+        console.log(result);
+        setTimeout(() => {
+          this.initMap();
+        }, 500);
+      });
     },
     handleCancelLocationModal () {
       this.modalLocationState.visible = false;
+    },
+    handleOkLocationModal() {
+      updatePickupLocation().then(() => {
+        this.modalLocationState.visible = false;
+        this.modalLocationState.confirmLoading = false;
+        this.fetch();
+      }).catch(() => this.modalLocationState.confirmLoading = false);
     },
     initMap() {
       if (!this.map) {

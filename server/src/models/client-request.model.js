@@ -15,13 +15,13 @@ const ClientRequest = sequelize.define('client_request', {
   pickupLat: {
     type: Sequelize.STRING
   },
-  pickupLong: {
+  pickupLng: {
     type: Sequelize.STRING
   },
   destLat: {
     type: Sequelize.STRING
   },
-  destLong: {
+  destLng: {
     type: Sequelize.STRING
   },
   phone: {
