@@ -13,16 +13,16 @@ const ClientRequest = sequelize.define('client_request', {
     type: Sequelize.STRING
   },
   pickupLat: {
-    type: Sequelize.STRING
+    type: Sequelize.FLOAT
   },
   pickupLng: {
-    type: Sequelize.STRING
+    type: Sequelize.FLOAT
   },
   destLat: {
-    type: Sequelize.STRING
+    type: Sequelize.FLOAT
   },
   destLng: {
-    type: Sequelize.STRING
+    type: Sequelize.FLOAT
   },
   phone: {
     type: Sequelize.STRING

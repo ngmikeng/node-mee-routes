@@ -74,10 +74,10 @@ export const deleteOne = (id) => {
   })
 }
 
-export const updatePickupLocation = (id, payload) => {
+export const updateLocation = (id, path, payload) => {
   return new Promise((resolve, reject) => {
     axios({
-      url: `${API_BASE_URL}/${PATH}/${id}/updatePickupLocation`,
+      url: `${API_BASE_URL}/${PATH}/${id}/${path}`,
       method: 'put',
       data: payload,
       type: 'json',

@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { getList, getById, createOne, deleteOne, updatePickupLocation } from '../services/customer-request';
+import { getList, getById, createOne, deleteOne, updateLocation } from '../services/customer-request';
 
 const columns = [{
   title: 'ID',
@@ -119,6 +119,7 @@ export default {
       pagination: {},
       loading: false,
       columns,
+      selectedObj: null,
       modalState: {
         visible: false,
         confirmLoading: false
@@ -181,8 +182,16 @@ export default {
       this.modalLocationState.visible = true;
       getById(id).then((result) => {
         console.log(result);
+        this.selectedObj = result;
+        const pickupLocation = {
+          lat: result.pickupLat,
+          lng: result.pickupLng
+        };
         setTimeout(() => {
-          this.initMap();
+          this.initMap(pickupLocation, (currentPickupLocation) => {
+            this.selectedObj.pickupLat = currentPickupLocation.lat;
+            this.selectedObj.pickupLng = currentPickupLocation.lng;
+          });
         }, 500);
       });
     },
@@ -190,37 +199,46 @@ export default {
       this.modalLocationState.visible = false;
     },
     handleOkLocationModal() {
-      updatePickupLocation().then(() => {
+      const pickupLocation = {
+        lat: this.selectedObj.pickupLat,
+        lng: this.selectedObj.pickupLng
+      };
+      updateLocation(this.selectedObj.id, 'updatePickupLocation', pickupLocation).then(() => {
         this.modalLocationState.visible = false;
         this.modalLocationState.confirmLoading = false;
         this.fetch();
       }).catch(() => this.modalLocationState.confirmLoading = false);
     },
-    initMap() {
-      if (!this.map) {
-        const hcm = {lat:  10.762622, lng: 106.660172};
-        this.map = new window.google.maps.Map(document.getElementById('mapLocationIdentify'), {zoom: 15, center: hcm});
-        const marker = new window.google.maps.Marker({
-          position: hcm,
-          map: this.map,
-          draggable: true
-        });
-        this.map.addListener('click', (event) => {
-          const position = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-          };
-          marker.setPosition(position);
-          console.log(position);
-        });
-        marker.addListener('dragend', (event) => {
-          const position = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-          };
-          console.log(position);
-        });
+    initMap(pickupLocation = {}, onChangePickupLocation) {
+      const center = {lat:  10.762622, lng: 106.660172};
+      const pickupPosition = center;
+      if (pickupLocation.lat) {
+        pickupPosition.lat = pickupLocation.lat;
       }
+      if (pickupLocation.lng) {
+        pickupPosition.lng = pickupLocation.lng;
+      }
+      this.map = new window.google.maps.Map(document.getElementById('mapLocationIdentify'), {zoom: 15, center: center});
+      const marker = new window.google.maps.Marker({
+        position: center,
+        map: this.map,
+        draggable: true
+      });
+      this.map.addListener('click', (event) => {
+        pickupPosition.lat = event.latLng.lat();
+        pickupPosition.lng = event.latLng.lng();
+        marker.setPosition(pickupPosition);
+        if (typeof onChangePickupLocation === 'function') {
+          onChangePickupLocation(pickupPosition);
+        }
+      });
+      marker.addListener('dragend', (event) => {
+        pickupPosition.lat = event.latLng.lat();
+        pickupPosition.lng = event.latLng.lng();
+        if (typeof onChangePickupLocation === 'function') {
+          onChangePickupLocation(pickupPosition);
+        }
+      });
     }
   }
 }
