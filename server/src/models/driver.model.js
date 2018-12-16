@@ -12,7 +12,7 @@ const Driver = sequelize.define('driver', {
   lat: {
     type: Sequelize.FLOAT
   },
-  long: {
+  lng: {
     type: Sequelize.FLOAT
   },
 });

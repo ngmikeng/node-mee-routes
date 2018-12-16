@@ -25,6 +25,7 @@
   "author": "Minh Nguyen",
   "license": "MIT",
   "dependencies": {
+    "@google/maps": "^0.5.5",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",

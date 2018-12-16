@@ -60,6 +60,30 @@ router.route('/')
 
 /**
  * @swagger
+ * /client-requests/direction:
+ *  get:
+ *    tags: ["client-requests"]
+ *    summary: Get direction
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: origin
+ *        in: query
+ *      - name: destination
+ *        in: query
+ */
+router.route('/direction')
+  .get(clientRequestCtrl.getDirection)
+
+/**
+ * @swagger
  * /client-requests/{requestId}:
  *  get:
  *    tags: ["client-requests"]
@@ -117,5 +141,6 @@ router.route('/:requestId')
  */
 router.route('/:requestId/updatePickupLocation')
   .put(clientRequestCtrl.updatePickupLocation);
+
 
 module.exports = router;

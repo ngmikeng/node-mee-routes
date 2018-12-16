@@ -1,12 +1,14 @@
 const ClientRequest = require('../models/client-request.model');
 const responseHandler = require('../helpers/responseHandler/index');
+const googleMaps = require('../helpers/googleMaps/index');
 
 module.exports = {
   getList: getList,
   getOne: getOne,
   createOne: createOne,
   deleteById: deleteById,
-  updatePickupLocation: updatePickupLocation
+  updatePickupLocation: updatePickupLocation,
+  getDirection: getDirection
 };
 
 function getList(req, res, next) {
@@ -65,4 +67,13 @@ function updatePickupLocation(req, res, next) {
   })
   .then(result => res.json(responseHandler.responseSuccess(result)))
   .catch(err => next(err));
+}
+
+function getDirection(req, res, next) {
+  const origin = req.query.origin;
+  const destination = req.query.destination;
+
+  googleMaps.getDirections(origin, destination)
+    .then(result => res.json(responseHandler.responseSuccess(result)))
+    .catch(err => next(err));
 }
