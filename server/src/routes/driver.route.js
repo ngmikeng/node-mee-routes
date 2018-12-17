@@ -75,4 +75,27 @@ router.route('/')
 router.route('/:driverId')
   .delete(driverCtrl.deleteById);
 
+
+/**
+ * @swagger
+ * /drivers/{driverId}/updateLocation:
+ *  put:
+ *    tags: ["driver"]
+ *    summary: Update driver's location
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: driverId
+ *        in: path
+ */
+router.route('/:driverId/updateLocation')
+  .put(driverCtrl.updateLocation);
+
 module.exports = router;

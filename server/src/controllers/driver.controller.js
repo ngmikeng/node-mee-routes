@@ -4,12 +4,22 @@ const responseHandler = require('../helpers/responseHandler/index');
 module.exports = {
   getList: getList,
   createOne: createOne,
-  deleteById: deleteById
+  getById: getById,
+  deleteById: deleteById,
+  updateLocation: updateLocation
 };
 
 function getList(req, res, next) {
   Driver.findAll()
     .then(result => res.json(responseHandler.responseSuccess(result)))
+    .catch(err => next(err));
+}
+
+function getById(req, res, next) {
+  const driverId = req.params.driverId;
+
+  Driver.findById(driverId)
+    .then(result => res.json(responseHandler.responseSuccess(result))
     .catch(err => next(err));
 }
 
@@ -34,5 +44,25 @@ function deleteById(req, res, next) {
     }
   })
   .then(result => res.json(responseHandler.responseSuccess(result)))
+  .catch(err => next(err));
+}
+
+function updateLocation(req, res, next) {
+  const driverId = req.params.driverId;
+  const data = req.body;
+
+  Driver.findById(driverId).then(driver => {
+    if (driver) {
+      return driver.update({
+        lat: data.lat,
+        lng: data.lng
+      });
+    } else {
+      return Promise.resolve({
+        message: `Not found driver id ${driverId}`
+      });
+    }
+  })
+  .then(result => responseHandler.responseSuccess(result))
   .catch(err => next(err));
 }
