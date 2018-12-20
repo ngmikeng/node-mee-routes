@@ -49,6 +49,7 @@ const config = require('../../config/config');
  *        description: 'Unauthorized'
  */
 router.route('/')
+  .all(expressJwt({ secret: config.jwtSecret }))
   .get(driverCtrl.getList)
   .post(driverCtrl.createOne);
 
@@ -73,6 +74,7 @@ router.route('/')
  *        in: path
  */
 router.route('/:driverId')
+  .get(driverCtrl.getById)
   .delete(driverCtrl.deleteById);
 
 

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const mysqlConfig = require('../../config/databases/mysql');
 const sequelize = mysqlConfig.getInstance();
+const simpleData = require('./simple-data/drivers.json');
 
 const Driver = sequelize.define('driver', {
   name: {
@@ -15,15 +16,18 @@ const Driver = sequelize.define('driver', {
   lng: {
     type: Sequelize.FLOAT
   },
+  phone: {
+    type: Sequelize.STRING
+  },
+  password: {
+    type: Sequelize.STRING
+  }
 });
 
 // force: true will drop the table if it already exists
 Driver.sync({force: true}).then(() => {
   // Table created
-  return Driver.create({
-    name: 'Nguyen Van A',
-    status: 'free'
-  });
+  return Driver.bulkCreate(simpleData);
 });
 
 module.exports = Driver;

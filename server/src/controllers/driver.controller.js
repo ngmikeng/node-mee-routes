@@ -19,7 +19,7 @@ function getById(req, res, next) {
   const driverId = req.params.driverId;
 
   Driver.findById(driverId)
-    .then(result => res.json(responseHandler.responseSuccess(result))
+    .then(result => res.json(responseHandler.responseSuccess(result)))
     .catch(err => next(err));
 }
 
