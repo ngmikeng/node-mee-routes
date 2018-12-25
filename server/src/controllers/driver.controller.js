@@ -1,5 +1,6 @@
 const Driver = require('../models/driver.model');
 const responseHandler = require('../helpers/responseHandler/index');
+const socketHandler = require('../helpers/socketHandler/index');
 
 module.exports = {
   getList: getList,
@@ -63,6 +64,14 @@ function updateLocation(req, res, next) {
       });
     }
   })
-  .then(result => responseHandler.responseSuccess(result))
+  .then(result => {
+    const location = {
+      lat: result.lat,
+      lng: result.lng
+    };
+    socketHandler.emitDriverLocationChange(result.id, location);
+
+    res.json(responseHandler.responseSuccess(result));
+  })
   .catch(err => next(err));
 }
