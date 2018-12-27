@@ -60,9 +60,15 @@ $ yarn dev
     }
     ```
 
-### TODO
-- Unit Test: mocha, chai.
-- Build Tools, ES7.
+### Migrates Sequelize
+
+```
+$ node_modules/.bin/sequelize model:create --name Driver --attributes name:string,status:string,lat:float,lng:float,phone:string,password:string
+
+$ node_modules/.bin/sequelize model:create --name ClientRequest --attributes name:string,pickupAddress:string,destAddress:string,pickupLat:float,pickupLng:float,destLat:float,destLng:float,phone:string,note:text,status:string
+
+$ node_modules/.bin/sequelize db:migrate
+```
 
 ### License
 MIT

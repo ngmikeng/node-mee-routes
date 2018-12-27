@@ -31,7 +31,8 @@ const ClientRequest = sequelize.define('client_request', {
     type: Sequelize.TEXT
   },
   status: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    isIn: [['geocoded', 'picked', 'moving', 'done']]
   }
 });
 

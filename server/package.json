@@ -46,6 +46,7 @@
     "mysql2": "^1.6.4",
     "nodemon": "^1.17.3",
     "sequelize": "^4.41.2",
+    "sequelize-cli": "^5.4.0",
     "socket.io": "^2.1.1",
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^3.0.9",

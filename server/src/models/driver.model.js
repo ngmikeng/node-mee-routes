@@ -8,7 +8,8 @@ const Driver = sequelize.define('driver', {
     type: Sequelize.STRING
   },
   status: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    isIn: [['online', 'offline', 'busy']]
   },
   lat: {
     type: Sequelize.FLOAT
