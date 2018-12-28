@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     destLng: DataTypes.FLOAT,
     phone: DataTypes.STRING,
     note: DataTypes.TEXT,
-    status: DataTypes.STRING
+    status: DataTypes.STRING,
+    driverId: {
+      type: DataTypes.INTEGER
+    }
   }, {});
   ClientRequest.associate = function(models) {
     // associations can be defined here

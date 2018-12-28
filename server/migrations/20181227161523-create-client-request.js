@@ -50,7 +50,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
-          model: 'Driver',
+          model: 'drivers',
           key: 'id'
         }
       }
