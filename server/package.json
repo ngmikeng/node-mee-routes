@@ -9,7 +9,10 @@
     "watch": "nodemon server.js",
     "dev": "nodemon -e js --exec \"npm run lint && npm run start\"",
     "lint": "./node_modules/.bin/eslint . --ext .js",
-    "test": "cross-env NODE_ENV=test mocha src/test/**/*.test.js"
+    "test": "cross-env NODE_ENV=test mocha src/test/**/*.test.js",
+    "db:migrate": "node_modules/.bin/sequelize db:migrate",
+    "db:seed": "node_modules/.bin/sequelize db:seed",
+    "db:seed:undo": "node_modules/.bin/sequelize db:seed:undo"
   },
   "keywords": [
     "nodejs",
