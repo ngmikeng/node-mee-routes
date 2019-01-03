@@ -1,4 +1,8 @@
-const Driver = require('../models/driver.model');
+const httpStatus = require('http-status');
+const APIError = require('../helpers/errorHandlers/APIError');
+// const Driver = require('../models/driver.model');
+const db = require('../../models/index');
+const Driver = db.Driver;
 const responseHandler = require('../helpers/responseHandler/index');
 const socketHandler = require('../helpers/socketHandler/index');
 
@@ -39,9 +43,8 @@ function deleteById(req, res, next) {
     if (result) {
       return result.destroy();
     } else {
-      return Promise.resolve({
-        message: `Not found driver id ${driverId}`
-      });
+      const err = new APIError(`Not found driver id ${driverId}`, httpStatus.NOT_FOUND, true);
+      return Promise.reject(err);
     }
   })
   .then(result => res.json(responseHandler.responseSuccess(result)))
@@ -59,9 +62,8 @@ function updateLocation(req, res, next) {
         lng: data.lng
       });
     } else {
-      return Promise.resolve({
-        message: `Not found driver id ${driverId}`
-      });
+      const err = new APIError(`Not found driver id ${driverId}`, httpStatus.NOT_FOUND, true);
+      return Promise.reject(err);
     }
   })
   .then(result => {

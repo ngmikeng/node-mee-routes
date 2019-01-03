@@ -1,4 +1,8 @@
-const ClientRequest = require('../models/client-request.model');
+// const ClientRequest = require('../models/client-request.model');
+const httpStatus = require('http-status');
+const APIError = require('../helpers/errorHandlers/APIError');
+const db = require('../../models/index');
+const ClientRequest = db.ClientRequest;
 const responseHandler = require('../helpers/responseHandler/index');
 const googleMaps = require('../helpers/googleMaps/index');
 
@@ -12,7 +16,7 @@ module.exports = {
 };
 
 function getList(req, res, next) {
-  ClientRequest.findAll()
+  ClientRequest.findAll({ include: ['Driver'] })
     .then(result => res.json(responseHandler.responseSuccess(result)))
     .catch(err => next(err));
 }
@@ -40,9 +44,8 @@ function deleteById(req, res, next) {
     if (result) {
       return result.destroy();
     } else {
-      return Promise.resolve({
-        message: `Not found client request id ${requestId}`
-      });
+      const err = new APIError(`Not found client request id ${requestId}`, httpStatus.NOT_FOUND, true);
+      return Promise.reject(err);
     }
   })
   .then(result => res.json(responseHandler.responseSuccess(result)))
@@ -60,9 +63,8 @@ function updatePickupLocation(req, res, next) {
         pickupLng: data.lng
       });
     } else {
-      return Promise.resolve({
-        message: `Not found client request id ${requestId}`
-      });
+      const err = new APIError(`Not found client request id ${requestId}`, httpStatus.NOT_FOUND, true);
+      return Promise.reject(err);
     }
   })
   .then(result => res.json(responseHandler.responseSuccess(result)))

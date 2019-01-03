@@ -8,7 +8,12 @@ module.exports = {
     password: process.env.MYSQL_PASS,
     database: process.env.MYSQL_DB,
     host: process.env.MYSQL_HOST,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
+    }
   },
   test: {
     username: process.env.MYSQL_USER,

@@ -12,7 +12,7 @@ const config = require('./config');
 const APIError = require('../src/helpers/errorHandlers/APIError');
 const responseHandler = require('../src/helpers/responseHandler/index');
 const configMongo = require('./databases/mongodb');
-const configMySQL = require('./databases/mysql');
+// const configMySQL = require('./databases/mysql');
 
 const app = express();
 
@@ -50,10 +50,10 @@ if (config.isUseMongo) {
 }
 
 // connect to mysql
-if (config.isUseMySQL) {
-  configMySQL.createInstance();
-  configMySQL.testConnection();
-}
+// if (config.isUseMySQL) {
+//   configMySQL.createInstance();
+//   configMySQL.testConnection();
+// }
 
 // config swagger api
 require('./swagger')(app);

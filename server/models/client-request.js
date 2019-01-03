@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     destLng: DataTypes.FLOAT,
     phone: DataTypes.STRING,
     note: DataTypes.TEXT,
-    status: DataTypes.STRING,
-    driverId: {
-      type: DataTypes.INTEGER
+    status: {
+      type: DataTypes.STRING,
+      isIn: [['geocoded', 'picked', 'moving', 'done']]
     }
   }, {});
   ClientRequest.associate = function(models) {
     // associations can be defined here
-    ClientRequest.belongsTo(models.Driver, { onDelete: 'CASCADE' });
+    ClientRequest.belongsTo(models.Driver, { onDelete: 'SET NULL', onUpdate: 'CASCADE' });
   };
   return ClientRequest;
 };

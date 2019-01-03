@@ -48,9 +48,9 @@ module.exports = {
       },
       driverId: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
         references: {
-          model: 'drivers',
+          model: 'Drivers',
           key: 'id'
         }
       }
