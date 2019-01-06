@@ -30,30 +30,9 @@ const config = require('../../config/config');
  *        description: 'OK'
  *      401:
  *        description: 'Unauthorized'
- */       
+ */
 
 router.route('/login')
   .post(authCtrl.login);
-
-/** GET /api/v1/auth/random-number
-- Protected route, needs token returned by the above as header. Authorization: Bearer {token} */
-/**
- * @swagger
- * /auth/randomNumber:
- *  get:
- *    tags: ["auth"]
- *    summary: Test protected route, get a random number
- *    security:
- *      - ApiKeyAuth: []
- *    consumes:
- *      - application/json
- *    responses:
- *      200:
- *        description: 'OK'
- *      401:
- *        description: 'Unauthorized'
- */ 
-router.route('/randomNumber')
-  .get(expressJwt({ secret: config.jwtSecret }), authCtrl.getRandomNumber);
 
 module.exports = router;
