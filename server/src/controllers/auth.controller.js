@@ -4,7 +4,7 @@ const APIError = require('../helpers/errorHandlers/APIError');
 const responseHandler = require('../helpers/responseHandler/index');
 const config = require('../../config/config');
 const db = require('../../models/index');
-const User = db.User;
+const Account = db.Account;
 
 module.exports = {
   login: login
@@ -18,7 +18,7 @@ module.exports = {
  * @returns {*}
  */
 function login(req, res, next) {
-  User.findOne({
+  Account.findOne({
     where: {
       username: req.body.username,
       password: req.body.password,
