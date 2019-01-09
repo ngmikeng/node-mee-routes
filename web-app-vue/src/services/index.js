@@ -26,7 +26,11 @@ export function apiService(opts = { path: '/', method: 'get' }) {
     }).then((result) => {
       resolve(result.data);
     }).catch((err) => {
-      reject(err.response.data);
+      if (err && err.response && err.response.data) {
+        reject(err.response.data);
+      } else {
+        reject(err);
+      }
     })
   })
 }
@@ -37,7 +41,7 @@ export function setAuthHeader(authToken) {
 
 export function setUserInfo(data) {
   if (data) {
-    window.localStorage.setItem('id', data.driverId);
+    window.localStorage.setItem('id', data.id);
     window.localStorage.setItem('accessToken', data.token);
   }
 }

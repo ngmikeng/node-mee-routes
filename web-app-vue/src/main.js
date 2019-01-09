@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage.vue'
 import MapView from './components/MapView.vue'
 import User from './components/User.vue'
 import Driver from './components/Driver.vue'
+import { getUserInfo, setAuthHeader } from './services'
 import './styles/main.css'
 
 Vue.use(VueRouter)
@@ -39,12 +40,13 @@ Vue.component(Col.name, Col)
 
 Vue.config.productionTip = false
 
-const router = new VueRouter({
+export const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
     {
       path: '/',
+      beforeEnter: guard,
       component: DefaultLayout,
       redirect: 'driver',
       children: [
@@ -57,6 +59,16 @@ const router = new VueRouter({
     { path: '/login', component: LoginPage },
   ]
 })
+
+function guard(to, from, next) {
+  const userInfo = getUserInfo();
+  if (userInfo && userInfo.accessToken) {
+    setAuthHeader(userInfo.accessToken);
+    next();
+  } else {
+    next('/login');
+  }
+}
 
 new Vue({
 	router,

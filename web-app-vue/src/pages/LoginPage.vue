@@ -6,7 +6,7 @@
       <a-card title="Login" :bordered="true">
         <a-form :autoFormCreate="(form)=>{this.form = form}" @submit="handleSubmit" class='login-form'>
           <a-form-item
-            fieldDecoratorId="userName"
+            fieldDecoratorId="username"
             :fieldDecoratorOptions="{rules: [{ required: true, message: 'Please input username!' }]}"
           >
             <a-input
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { apiService, setAuthHeader, setUserInfo } from '../services';
 
 export default {
   name: 'login-page',
@@ -52,8 +53,22 @@ export default {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          const data = values;
-          this.$router.push({ path: '/driver', query: {id: data.username} });
+          apiService({
+            path: '/auth/login',
+            method: 'post',
+            data: {
+              username: values.username,
+              password: values.password
+            }
+          }).then((result) => {
+            setAuthHeader(result.data.token);
+            setUserInfo(result.data);
+            const data = values;
+            this.$router.push({ path: '/driver', query: {id: data.username} });
+          }).catch((err) => {
+            alert(err.message);
+          });
+          
         }
       });
     }

@@ -6,12 +6,16 @@ module.exports = {
       {
         "name": "Employer 1",
         "status": "active",
-        "type": "identifier"
+        "type": "identifier",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
       },
       {
         "name": "Employer 2",
         "status": "active",
-        "type": "identifier"
+        "type": "identifier",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
       },
     ], {});
   },

@@ -51,6 +51,7 @@
 
 <script>
 import axios from 'axios';
+import { apiService } from '../services';
 
 const columns = [{
   title: 'ID',
@@ -92,20 +93,19 @@ export default {
   methods: {
     fetch (params = {}) {
       this.loading = true
-      axios({
-        url: 'http://localhost:5858/api/v1/drivers',
+      apiService({
+        path: '/drivers',
         method: 'get',
         params: {
           results: 10,
           ...params,
-        },
-        type: 'json',
+        }
       }).then((result) => {
         if (result && result.data) {
           const pagination = { ...this.pagination };
           // pagination.total = 200;
           this.loading = false;
-          this.data = result.data.data;
+          this.data = result.data;
           this.pagination = pagination;
         }
       }).catch(() => this.loading = false);

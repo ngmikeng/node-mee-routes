@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const expressJwt = require('express-jwt');
-const authCtrl = require('../controllers/auth.controller');
 const clientRequestCtrl = require('../controllers/client-request.controller');
 const config = require('../../config/config');
 
@@ -55,6 +54,7 @@ const config = require('../../config/config');
  *        description: 'Unauthorized'
  */
 router.route('/')
+  .all(expressJwt({ secret: config.jwtSecret }))
   .get(clientRequestCtrl.getList)
   .post(clientRequestCtrl.createOne);
 
