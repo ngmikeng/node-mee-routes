@@ -12,6 +12,7 @@
       @change="handleTableChange"
     >
       <template slot="operation" slot-scope="text, record">
+        <a-button type="primary" @click="(e) => { openModal(e, record.id) }">Edit</a-button>
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
@@ -127,21 +128,43 @@ export default {
         status: value,
       })
     },
-    openModal () {
+    openModal (event, id) {
       this.modalState.visible = true;
+      setTimeout(() => {
+        this.form.resetFields();
+        if (id) {
+          axios({
+              url: `http://localhost:5858/api/v1/drivers/${id}`,
+              method: 'get',
+              type: 'json',
+            }).then((result) => {
+              this.selectedObj = result.data;
+              this.form.setFieldsValue(result.data);
+            }).catch(() => this.selectedObj = undefined)
+        } else {
+          this.selectedObj = undefined;
+        }
+      }, 100)
     },
     handleOkModal (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          axios({
+          const formData = { ...values };
+          const opts = {
             url: 'http://localhost:5858/api/v1/drivers',
             method: 'post',
-            data: values,
+            data: formData,
             type: 'json',
-          }).then(() => {
+          }
+          if (this.selectedObj && this.selectedObj.id) {
+            opts.url = `http://localhost:5858/api/v1/drivers/${this.selectedObj.id}`
+            opts.method = 'put'
+          }
+          axios(opts).then(() => {
             this.modalState.visible = false;
             this.modalState.confirmLoading = false;
+            this.form.resetFields();
             this.fetch();
           }).catch(() => this.modalState.confirmLoading = false);
         }

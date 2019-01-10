@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { apiService, setAuthHeader, setUserInfo } from '../services';
+import { apiService, setUserInfo } from '../services';
 
 export default {
   name: 'login-page',
@@ -61,14 +61,13 @@ export default {
               password: values.password
             }
           }).then((result) => {
-            setAuthHeader(result.data.token);
             setUserInfo(result.data);
             const data = values;
             this.$router.push({ path: '/driver', query: {id: data.username} });
           }).catch((err) => {
             alert(err.message);
           });
-          
+
         }
       });
     }
