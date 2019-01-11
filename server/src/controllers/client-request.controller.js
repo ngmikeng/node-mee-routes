@@ -7,13 +7,29 @@ const responseHandler = require('../helpers/responseHandler/index');
 const googleMaps = require('../helpers/googleMaps/index');
 
 module.exports = {
+  loadById: loadById,
   getList: getList,
   getOne: getOne,
   createOne: createOne,
+  updateOne: updateOne,
   deleteById: deleteById,
   updatePickupLocation: updatePickupLocation,
   getDirection: getDirection
 };
+
+/**
+ * Load client request data by id and append to req.
+ * @param {*} req.params.requestId - Client Request's id from url param
+ * @param {*} requestId - Client Request's id can get from req.params.requestId
+ */
+function loadById(req, res, next, requestId) {
+  ClientRequest.findById(requestId)
+    .then(result => {
+      req.clientRequest = result;
+      return next();
+    })
+    .catch(err => next(err));
+}
 
 function getList(req, res, next) {
   ClientRequest.findAll({ include: ['Driver'] })
@@ -35,6 +51,20 @@ function createOne(req, res, next) {
   ClientRequest.create(data)
     .then(result => res.json(responseHandler.responseSuccess(result)))
     .catch(err => next(err));
+}
+
+function updateOne(req, res, next) {
+  if (req.clientRequest) {
+    const data = req.body;
+    const dataModel = req.clientRequest;
+    dataModel.update(data).then(result => {
+      res.json(responseHandler.responseSuccess(result));
+    })
+    .catch(err => next(err));
+  } else {
+    const err = new APIError(`Not found req.clientRequest data`, httpStatus.NOT_FOUND, true);
+    next(err);
+  }
 }
 
 function deleteById(req, res, next) {

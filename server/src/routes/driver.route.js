@@ -54,6 +54,9 @@ router.route('/')
   .post(driverCtrl.createOne);
 
 
+/** Load driver detail when API with driverId route parameter is hit */
+router.param('driverId', driverCtrl.loadById);
+
 /**
  * @swagger
  * /drivers/{driverId}:
@@ -74,9 +77,9 @@ router.route('/')
  *        in: path
  */
 router.route('/:driverId')
-  .get(driverCtrl.getById)
-  .delete(driverCtrl.deleteById);
-
+  .get(driverCtrl.getOne)
+  .put(driverCtrl.updateOne)
+  .delete(driverCtrl.deleteOne);
 
 /**
  * @swagger

@@ -82,6 +82,9 @@ router.route('/')
 router.route('/direction')
   .get(clientRequestCtrl.getDirection)
 
+/** Load client request detail when API with requestId route parameter is hit */
+router.param('requestId', clientRequestCtrl.loadById);
+
 /**
  * @swagger
  * /client-requests/{requestId}:

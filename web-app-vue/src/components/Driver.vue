@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { apiService } from '../services';
 
 const columns = [{
@@ -133,8 +132,8 @@ export default {
       setTimeout(() => {
         this.form.resetFields();
         if (id) {
-          axios({
-              url: `http://localhost:5858/api/v1/drivers/${id}`,
+          apiService({
+              path: `/drivers/${id}`,
               method: 'get',
               type: 'json',
             }).then((result) => {
@@ -152,16 +151,16 @@ export default {
         if (!err) {
           const formData = { ...values };
           const opts = {
-            url: 'http://localhost:5858/api/v1/drivers',
+            path: '/drivers',
             method: 'post',
             data: formData,
             type: 'json',
           }
           if (this.selectedObj && this.selectedObj.id) {
-            opts.url = `http://localhost:5858/api/v1/drivers/${this.selectedObj.id}`
+            opts.path = `/drivers/${this.selectedObj.id}`
             opts.method = 'put'
           }
-          axios(opts).then(() => {
+          apiService(opts).then(() => {
             this.modalState.visible = false;
             this.modalState.confirmLoading = false;
             this.form.resetFields();
@@ -174,13 +173,15 @@ export default {
       this.modalState.visible = false;
     },
     handleDelete(id) {
-      axios({
-        url: `http://localhost:5858/api/v1/drivers/${id}`,
-        method: 'delete',
-        type: 'json',
-      }).then(() => {
-        this.fetch();
-      });
+      if (id) {
+        apiService({
+          path: `/drivers/${id}`,
+          method: 'delete',
+          type: 'json',
+        }).then(() => {
+          this.fetch();
+        });
+      }
     }
   }
 }

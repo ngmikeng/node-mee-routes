@@ -7,12 +7,28 @@ const responseHandler = require('../helpers/responseHandler/index');
 const socketHandler = require('../helpers/socketHandler/index');
 
 module.exports = {
+  loadById: loadById,
   getList: getList,
+  getOne: getOne,
   createOne: createOne,
-  getById: getById,
-  deleteById: deleteById,
+  updateOne: updateOne,
+  deleteOne: deleteOne,
   updateLocation: updateLocation
 };
+
+/**
+ * Load driver data by id and append to req.
+ * @param {*} req.params.driverId - Driver's id from url param
+ * @param {*} driverId - Driver's id can get from req.params.driverId
+ */
+function loadById(req, res, next, driverId) {
+  Driver.findById(driverId)
+    .then(result => {
+      req.driver = result;
+      return next();
+    })
+    .catch(err => next(err));
+}
 
 function getList(req, res, next) {
   Driver.findAll()
@@ -20,12 +36,13 @@ function getList(req, res, next) {
     .catch(err => next(err));
 }
 
-function getById(req, res, next) {
-  const driverId = req.params.driverId;
-
-  Driver.findById(driverId)
-    .then(result => res.json(responseHandler.responseSuccess(result)))
-    .catch(err => next(err));
+function getOne(req, res, next) {
+  if (req.driver) {
+    return res.json(responseHandler.responseSuccess(req.driver));
+  } else {
+    const err = new APIError(`Not found req.driver data`, httpStatus.NOT_FOUND, true);
+    next(err);
+  }
 }
 
 function createOne(req, res, next) {
@@ -36,19 +53,36 @@ function createOne(req, res, next) {
     .catch(err => next(err));
 }
 
-function deleteById(req, res, next) {
-  const driverId = req.params.driverId;
+function updateOne(req, res, next) {
+  if (req.driver) {
+    const data = req.body;
+    const dataModel = req.driver;
+    dataModel.update(data).then(result => {
+      const location = {
+        lat: result.lat,
+        lng: result.lng
+      };
+      socketHandler.emitDriverLocationChange(result.id, location);
+  
+      res.json(responseHandler.responseSuccess(result));
+    })
+    .catch(err => next(err));
+  } else {
+    const err = new APIError(`Not found req.driver data`, httpStatus.NOT_FOUND, true);
+    next(err);
+  }
+}
 
-  Driver.findById(driverId).then(result => {
-    if (result) {
-      return result.destroy();
-    } else {
-      const err = new APIError(`Not found driver id ${driverId}`, httpStatus.NOT_FOUND, true);
-      return Promise.reject(err);
-    }
-  })
-  .then(result => res.json(responseHandler.responseSuccess(result)))
-  .catch(err => next(err));
+function deleteOne(req, res, next) {
+  if (req.driver) {
+    const dataModel = req.driver;
+    dataModel.destroy()
+      .then(result => res.json(responseHandler.responseSuccess(result)))
+      .catch(err => next(err));
+  } else {
+    const err = new APIError(`Not found req.driver data`, httpStatus.NOT_FOUND, true);
+    next(err);
+  }
 }
 
 function updateLocation(req, res, next) {
