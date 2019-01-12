@@ -103,6 +103,21 @@ router.param('requestId', clientRequestCtrl.loadById);
  *    parameters:
  *      - name: requestId
  *        in: path
+ *  put:
+ *    tags: ["client-requests"]
+ *    summary: Update client request's details
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ *    parameters:
+ *      - name: requestId
+ *        in: path
  *  delete:
  *    tags: ["client-requests"]
  *    summary: Delete a client request by id
@@ -121,6 +136,7 @@ router.param('requestId', clientRequestCtrl.loadById);
  */
 router.route('/:requestId')
   .get(clientRequestCtrl.getOne)
+  .put(clientRequestCtrl.updateOne)
   .delete(clientRequestCtrl.deleteById);
 
 /**

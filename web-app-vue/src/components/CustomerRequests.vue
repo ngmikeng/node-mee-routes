@@ -13,6 +13,7 @@
     >
       <template slot="operation" slot-scope="text, record">
         <a-button type="default" @click="() => { openLocationModal(record.id) }" style="padding-right: 10px">Location</a-button>
+        <a-button type="primary" @click="(e) => { openModal(e, record.id) }">Edit</a-button>
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
@@ -78,6 +79,7 @@
 </template>
 
 <script>
+import { apiService } from '../services';
 import { getList, getById, createOne, deleteOne, updateLocation } from '../services/customer-request';
 
 const columns = [{
@@ -160,16 +162,43 @@ export default {
         this.pagination = pagination;
       }).catch(() => this.loading = false);
     },
-    openModal () {
+    openModal (event, id) {
       this.modalState.visible = true;
+      setTimeout(() => {
+        this.form.resetFields();
+        if (id) {
+          apiService({
+              path: `/client-requests/${id}`,
+              method: 'get',
+              type: 'json',
+            }).then((result) => {
+              this.selectedObj = result.data;
+              this.form.setFieldsValue(result.data);
+            }).catch(() => this.selectedObj = undefined)
+        } else {
+          this.selectedObj = undefined;
+        }
+      }, 100)
     },
     handleOkModal (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          createOne(values).then(() => {
+          const formData = { ...values };
+          const opts = {
+            path: '/client-requests',
+            method: 'post',
+            data: formData,
+            type: 'json',
+          }
+          if (this.selectedObj && this.selectedObj.id) {
+            opts.path = `/client-requests/${this.selectedObj.id}`
+            opts.method = 'put'
+          }
+          apiService(opts).then(() => {
             this.modalState.visible = false;
             this.modalState.confirmLoading = false;
+            this.form.resetFields();
             this.fetch();
           }).catch(() => this.modalState.confirmLoading = false);
         }
