@@ -1,6 +1,6 @@
 <template>
   <div class="customer-requests-component">
-    <h1 class="header">Customer Requests</h1>
+    <h1>Customer Requests</h1>
     <div class="g-margin-bot-10">
       <a-button type="primary" @click="openModal">Add a Request</a-button>
     </div>

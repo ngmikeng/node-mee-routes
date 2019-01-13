@@ -1,6 +1,6 @@
 <template>
 	<div class="driver-component">
-		<h1 class="header">Driver</h1>
+		<h1>Driver</h1>
 		<div class="g-margin-bot-10">
       <a-button type="primary" @click="openModal">Add a Driver</a-button>
     </div>

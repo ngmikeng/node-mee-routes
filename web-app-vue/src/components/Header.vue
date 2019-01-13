@@ -1,6 +1,9 @@
 <template>
   <a-layout-header class="header">
     <div class="logo">Mee Routes</div>
+    <div class="right-nav">
+      <span>Identifier</span>
+    </div>
   </a-layout-header>
 </template>
 
@@ -13,10 +16,16 @@ export default {
 </script>
 
 <style>
+.header {
+  font-weight: bold;
+  color: #fff;
+}
 .header .logo {
   display: inline-block;
   float: left;
-  font-weight: bold;
-  color: #fff;
+}
+.header .right-nav {
+  display: inline-block;
+  float: right;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="map-view-component">
-        <h1 class="header">Map View</h1>
+        <h1>Map View</h1>
         <p>Map View Component</p>
         <div class="g-margin-bot-10">
           <a-button type="primary" @click="testRedirect">Go</a-button>

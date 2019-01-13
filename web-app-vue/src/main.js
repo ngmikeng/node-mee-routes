@@ -56,7 +56,7 @@ export const router = new VueRouter({
         { path: 'driver', component: Driver }
       ]
     },
-    { path: '/login', component: LoginPage },
+    { path: '/login', beforeEnter: isUnloggedIn, component: LoginPage },
   ]
 })
 
@@ -67,6 +67,16 @@ function guard(to, from, next) {
     next();
   } else {
     next('/login');
+  }
+}
+
+function isUnloggedIn(to, from, next) {
+  const userInfo = getUserInfo();
+  if (userInfo && userInfo.accessToken) {
+    setAuthHeader(userInfo.accessToken);
+    next('/driver');
+  } else {
+    next();
   }
 }
 

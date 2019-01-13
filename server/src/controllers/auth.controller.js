@@ -31,7 +31,8 @@ function login(req, res, next) {
       }, config.jwtSecret, {expiresIn: '2h'});
       return res.json(responseHandler.responseSuccess({
         token,
-        username: user.username
+        id: user.id,
+        username: user.username,
       }));
     } else {
       const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);

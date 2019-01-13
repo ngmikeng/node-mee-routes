@@ -63,7 +63,7 @@ export default {
           }).then((result) => {
             setUserInfo(result.data);
             const data = values;
-            this.$router.push({ path: '/driver', query: {id: data.username} });
+            this.$router.push({ path: '/driver', query: {u: data.username} });
           }).catch((err) => {
             alert(err.message);
           });

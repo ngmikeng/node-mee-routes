@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { router } from '../main';
 import {
   API_BASE_URL
@@ -13,7 +14,7 @@ axios.interceptors.response.use(function (response) {
     if (error.response.status === 401) {
       router.push({ path: '/login' });
     }
-    
+
   }
   return Promise.reject(error);
 });
@@ -41,14 +42,14 @@ export function setAuthHeader(authToken) {
 
 export function setUserInfo(data) {
   if (data) {
-    window.localStorage.setItem('id', data.id);
-    window.localStorage.setItem('accessToken', data.token);
+    Cookies.set('id', data.id, { expires: 30 });
+    Cookies.set('accessToken', data.token, { expires: 30 });
   }
 }
 
 export function getUserInfo() {
-  const id = window.localStorage.getItem('id');
-  const accessToken = window.localStorage.getItem('accessToken');
+  const id = Cookies.get('id');
+  const accessToken = Cookies.get('accessToken');
 
   return {
     id, accessToken
@@ -56,6 +57,6 @@ export function getUserInfo() {
 }
 
 export function removeUserInfo() {
-  window.localStorage.removeItem('id');
-  window.localStorage.removeItem('accessToken');
+  Cookies.remove('id');
+  Cookies.remove('accessToken');
 }
