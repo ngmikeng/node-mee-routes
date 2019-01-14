@@ -7,7 +7,8 @@ const db = require('../../models/index');
 const Account = db.Account;
 
 module.exports = {
-  login: login
+  login: login,
+  isLoggedIn: isLoggedIn
 };
 
 /**
@@ -40,4 +41,13 @@ function login(req, res, next) {
     }
   })
   .catch(e => next(e));
+}
+
+function isLoggedIn(req, res, next) {
+  if (req.user) {
+    res.json(req.user)
+  } else {
+    const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
+    return next(err);
+  }
 }

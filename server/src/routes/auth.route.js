@@ -35,4 +35,7 @@ const config = require('../../config/config');
 router.route('/login')
   .post(authCtrl.login);
 
+router.route('/isLoggedIn')
+  .get(expressJwt({ secret: config.jwtSecret }), authCtrl.isLoggedIn);
+
 module.exports = router;

@@ -11,7 +11,7 @@ import LoginPage from './pages/LoginPage.vue'
 import MapView from './components/MapView.vue'
 import User from './components/User.vue'
 import Driver from './components/Driver.vue'
-import { getUserInfo, setAuthHeader } from './services'
+import { getUserInfo, setAuthHeader, removeUserInfo, apiService } from './services'
 import './styles/main.css'
 
 Vue.use(VueRouter)
@@ -64,7 +64,15 @@ function guard(to, from, next) {
   const userInfo = getUserInfo();
   if (userInfo && userInfo.accessToken) {
     setAuthHeader(userInfo.accessToken);
-    next();
+    apiService({
+      path: '/auth/isLoggedIn',
+      method: 'get'
+    }).then((result) => {
+      next();
+    }).catch(() => {
+      removeUserInfo();
+      next('/login');
+    });
   } else {
     next('/login');
   }
@@ -74,7 +82,16 @@ function isUnloggedIn(to, from, next) {
   const userInfo = getUserInfo();
   if (userInfo && userInfo.accessToken) {
     setAuthHeader(userInfo.accessToken);
-    next('/driver');
+    apiService({
+      path: '/auth/isLoggedIn',
+      method: 'get'
+    }).then((result) => {
+      console.log(result);
+      next('/');
+    }).catch(() => {
+      removeUserInfo();
+      next();
+    });
   } else {
     next();
   }
