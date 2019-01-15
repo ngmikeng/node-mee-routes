@@ -73,6 +73,9 @@
       :confirmLoading="modalLocationState.confirmLoading"
       @cancel="handleCancelLocationModal"
     >
+      <div>
+        <a-button type="primary" @click="findLocation">Find Location</a-button>
+      </div>
       <div id="mapLocationIdentify" class="modal-map"></div>
     </a-modal>
   </div>
@@ -248,7 +251,7 @@ export default {
         pickupPosition.lng = pickupLocation.lng;
       }
       this.map = new window.google.maps.Map(document.getElementById('mapLocationIdentify'), {zoom: 15, center: center});
-      const marker = new window.google.maps.Marker({
+      this.marker = new window.google.maps.Marker({
         position: center,
         map: this.map,
         draggable: true
@@ -268,6 +271,24 @@ export default {
           onChangePickupLocation(pickupPosition);
         }
       });
+    },
+    findLocation() {
+      if (this.selectedObj && this.selectedObj.pickupAddress) {
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ 'address': this.selectedObj.pickupAddress }, function(results, status) {
+          if (status == 'OK') {
+            const geolocation = results[0].geometry.location;
+            this.map.setCenter(geolocation);
+            if (this.marker) {
+              this.marker.setPosition(geolocation);
+              this.selectedObj.pickupLat = geolocation.lat;
+              this.selectedObj.pickupLng = geolocation.lng;
+            }
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
     }
   }
 }
