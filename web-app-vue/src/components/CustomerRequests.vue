@@ -12,8 +12,8 @@
       @change="handleTableChange"
     >
       <template slot="operation" slot-scope="text, record">
-        <a-button type="default" @click="() => { openLocationModal(record.id) }" style="padding-right: 10px">Location</a-button>
-        <a-button type="primary" @click="(e) => { openModal(e, record.id) }">Edit</a-button>
+        <a-button type="default" @click="() => { openLocationModal(record.id) }" style="margin-right: 5px">Location</a-button>
+        <a-button type="primary" @click="(e) => { openModal(e, record.id) }"  style="margin-right: 5px">Edit</a-button>
         <a-popconfirm
           v-if="data.length"
           title="Are you sure you want to delete?"
@@ -73,9 +73,9 @@
       :confirmLoading="modalLocationState.confirmLoading"
       @cancel="handleCancelLocationModal"
     >
-      <div>
+      <p>
         <a-button type="primary" @click="findLocation">Find Location</a-button>
-      </div>
+      </p>
       <div id="mapLocationIdentify" class="modal-map"></div>
     </a-modal>
   </div>
@@ -259,12 +259,12 @@ export default {
       this.map.addListener('click', (event) => {
         pickupPosition.lat = event.latLng.lat();
         pickupPosition.lng = event.latLng.lng();
-        marker.setPosition(pickupPosition);
+        this.marker.setPosition(pickupPosition);
         if (typeof onChangePickupLocation === 'function') {
           onChangePickupLocation(pickupPosition);
         }
       });
-      marker.addListener('dragend', (event) => {
+      this.marker.addListener('dragend', (event) => {
         pickupPosition.lat = event.latLng.lat();
         pickupPosition.lng = event.latLng.lng();
         if (typeof onChangePickupLocation === 'function') {
@@ -275,14 +275,18 @@ export default {
     findLocation() {
       if (this.selectedObj && this.selectedObj.pickupAddress) {
         const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode({ 'address': this.selectedObj.pickupAddress }, function(results, status) {
+        geocoder.geocode({ 'address': this.selectedObj.pickupAddress }, (results, status) => {
           if (status == 'OK') {
             const geolocation = results[0].geometry.location;
+            const location = {
+              lat: geolocation.lat(),
+              lng: geolocation.lng()
+            };
             this.map.setCenter(geolocation);
             if (this.marker) {
-              this.marker.setPosition(geolocation);
-              this.selectedObj.pickupLat = geolocation.lat;
-              this.selectedObj.pickupLng = geolocation.lng;
+              this.marker.setPosition(location);
+              this.selectedObj.pickupLat = location.lat;
+              this.selectedObj.pickupLng = location.lng;
             }
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
