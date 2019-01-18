@@ -5,13 +5,7 @@ import {
   Modal, Form, Input, Select, Card, Row, Col
 } from 'ant-design-vue';
 import App from './App.vue'
-import DefaultLayout from './layouts/DefaultLayout.vue'
-import CustomerRequests from './components/CustomerRequests.vue'
-import LoginPage from './pages/LoginPage.vue'
-import MapView from './components/MapView.vue'
-import User from './components/User.vue'
-import Driver from './components/Driver.vue'
-import { getUserInfo, setAuthHeader, removeUserInfo, apiService } from './services'
+import router from './router';
 import './styles/main.css'
 
 Vue.use(VueRouter)
@@ -39,63 +33,6 @@ Vue.component(Row.name, Row)
 Vue.component(Col.name, Col)
 
 Vue.config.productionTip = false
-
-export const router = new VueRouter({
-  mode: 'history',
-  base: __dirname,
-  routes: [
-    {
-      path: '/',
-      beforeEnter: guard,
-      component: DefaultLayout,
-      redirect: 'driver',
-      children: [
-        { path: 'map-view', component: MapView },
-        { path: 'customer-requests', component: CustomerRequests },
-        { path: 'user', component: User },
-        { path: 'driver', component: Driver }
-      ]
-    },
-    { path: '/login', beforeEnter: isUnloggedIn, component: LoginPage },
-  ]
-})
-
-function guard(to, from, next) {
-  const userInfo = getUserInfo();
-  if (userInfo && userInfo.accessToken) {
-    setAuthHeader(userInfo.accessToken);
-    apiService({
-      path: '/auth/isLoggedIn',
-      method: 'get'
-    }).then((result) => {
-      next();
-    }).catch(() => {
-      removeUserInfo();
-      next('/login');
-    });
-  } else {
-    next('/login');
-  }
-}
-
-function isUnloggedIn(to, from, next) {
-  const userInfo = getUserInfo();
-  if (userInfo && userInfo.accessToken) {
-    setAuthHeader(userInfo.accessToken);
-    apiService({
-      path: '/auth/isLoggedIn',
-      method: 'get'
-    }).then((result) => {
-      console.log(result);
-      next('/');
-    }).catch(() => {
-      removeUserInfo();
-      next();
-    });
-  } else {
-    next();
-  }
-}
 
 new Vue({
 	router,

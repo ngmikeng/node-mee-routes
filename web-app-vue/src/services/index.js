@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { router } from '../main';
+import router from '../router';
 import {
   API_BASE_URL
 } from '../core/constant';
