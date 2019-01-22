@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import DefaultLayout from './layouts/Default.vue'
+import LoginPage from './pages/Login.vue'
 
 const router = new VueRouter({
   mode: 'history',
@@ -10,6 +11,10 @@ const router = new VueRouter({
       component: DefaultLayout,
       children: []
     },
+    {
+      path: '/login',
+      component: LoginPage
+    }
   ]
 })
 

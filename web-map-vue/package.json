@@ -30,7 +30,11 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "no-mixed-spaces-and-tabs": "off",
+      "no-unused-vars": 1,
+      "no-console": 1
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
