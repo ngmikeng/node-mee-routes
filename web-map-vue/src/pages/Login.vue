@@ -7,27 +7,30 @@
 			  	<b-card header-tag="header">
 	            <h6 slot="header" class="mb-0">Login</h6>
 				  		<b-form @submit="submit" @reset="reset" novalidate>
-					      <b-form-group id="exampleInputGroup1"
-					                    label="Username"
-					                    label-for="exampleInput1"
+					      <b-form-group label="Username"
+					                    label-for="username"
 					                    description="">
-					        <b-form-input id="exampleInput1"
+					        <b-form-input name="username"
 					                      type="text"
 					                      v-model="formData.username"
+					                      v-validate="'required'"
 					                      required
 					                      placeholder="Enter username"
-					                      :state="checkUserName">
+					                      :class="{'is-invalid': errors.has('username')}">
 					        </b-form-input>
+					        <span class="text-danger">{{ errors.first('username') }}</span>
 					      </b-form-group>
-					      <b-form-group id="exampleInputGroup2"
-					                    label="Password"
-					                    label-for="exampleInput2">
-					        <b-form-input id="exampleInput2"
+					      <b-form-group label="Password"
+					                    label-for="password">
+					        <b-form-input name="password"
 					                      type="password"
 					                      v-model="formData.password"
+					                      v-validate="'required'"
 					                      required
-					                      placeholder="Enter password">
+					                      placeholder="Enter password"
+					                      :class="{'is-invalid': errors.has('password')}">
 					        </b-form-input>
+					        <span class="text-danger">{{ errors.first('password') }}</span>
 					      </b-form-group>
 					      <div class="text-right">
 					      	<b-button type="submit" variant="primary">Login</b-button>
@@ -41,6 +44,7 @@
 </template>
 
 <script>
+import { apiService, setUserInfo } from '../services';
 
 export default {
   name: 'login-page',
@@ -49,7 +53,7 @@ export default {
   computed: {
   	checkUserName() {
   		if (this.formSubmitted) {
-  			return this.formData.username ? true : false;
+  			return this.formData.username ? null : false;
   		}
   		return null;
   	}
@@ -64,6 +68,20 @@ export default {
   	submit(event) {
   		event.preventDefault();
   		this.formSubmitted = true;
+  		this.$validator.validateAll().then((result) => {
+        if (result) {
+      		apiService({
+            path: '/auth/login',
+            method: 'post',
+            data: this.formData
+          }).then((result) => {
+            setUserInfo(result.data);
+            this.$router.push({ path: '/' });
+          }).catch((err) => {
+            alert(err.message);
+          });
+        }
+      });
   	},
   	reset() {
 
