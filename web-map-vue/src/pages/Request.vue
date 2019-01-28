@@ -5,15 +5,17 @@
         <b-col md="3">
           <nav>
             <b-list-group>
-              <b-list-group-item v-for="request in listRequests">
+              <b-list-group-item v-for="request in listRequests" :key="request.id">
+              <router-link :to="{name: 'requestDetail', params: {id: request.id}}">
                 <h6><b>{{ request.name }}</b></h6>
                 <p><small>{{ request.pickupAddress }}</small></p>
+              </router-link>
               </b-list-group-item>
             </b-list-group>
           </nav>
         </b-col>
         <b-col md="9">
-          <map-request></map-request>
+          <router-view></router-view>
         </b-col>
       </b-row>
     </b-container>
@@ -31,9 +33,9 @@ export default {
   data() {
     return {
       listRequests: [
-        { id: 1, name: 'John Doe', pickupAddress: '2662 Cesar Avenue' },
-        { id: 2, name: 'Pete Son', pickupAddress: '1234 Longo Avenue' },
-        { id: 3, name: 'Andy Day', pickupAddress: '2662 Delan Avenue' },
+        { id: "1", name: 'John Doe', pickupAddress: '2662 Cesar Avenue' },
+        { id: "2", name: 'Pete Son', pickupAddress: '1234 Longo Avenue' },
+        { id: "3", name: 'Andy Day', pickupAddress: '2662 Delan Avenue' },
       ]
     }
   }

@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 import DefaultLayout from './layouts/Default.vue'
 import LoginPage from './pages/Login.vue'
 import RequestPage from './pages/Request.vue'
+import RequestDetailPage from './pages/RequestDetail.vue'
 import { getUserInfo, setAuthHeader, removeUserInfo, apiService } from './services'
 
 function guard(to, from, next) {
@@ -50,7 +51,13 @@ const router = new VueRouter({
       beforeEnter: guard,
       component: DefaultLayout,
       children: [
-      	{ path: 'request', component: RequestPage }
+      	{ 
+      		path: 'request', component: RequestPage, children: [
+      			{
+      				path: ':id', name: 'requestDetail', component: RequestDetailPage
+      			}
+      		]
+      	}
       ]
     },
     {
