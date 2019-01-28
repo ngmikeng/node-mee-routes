@@ -76,7 +76,7 @@ export default {
             data: this.formData
           }).then((result) => {
             setUserInfo(result.data);
-            this.$router.push({ path: '/' });
+            this.$router.push({ path: '/request' });
           }).catch((err) => {
             alert(err.message);
           });

@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router'
 import DefaultLayout from './layouts/Default.vue'
 import LoginPage from './pages/Login.vue'
+import RequestPage from './pages/Request.vue'
 import { getUserInfo, setAuthHeader, removeUserInfo, apiService } from './services'
 
 function guard(to, from, next) {
@@ -48,7 +49,9 @@ const router = new VueRouter({
       path: '/',
       beforeEnter: guard,
       component: DefaultLayout,
-      children: []
+      children: [
+      	{ path: 'request', component: RequestPage }
+      ]
     },
     {
       path: '/login',

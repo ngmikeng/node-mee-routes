@@ -1,7 +1,7 @@
 <template>
   <div class="layout-default">
     <Header />
-    <main>
+    <main class="main-content">
       <router-view></router-view>
     </main>
   </div>
@@ -23,7 +23,7 @@ export default {
   text-align: center;
 }
 
-.main-content {
-  padding:  20px;
+.layout-default .main-content {
+  margin-top: 15px;
 }
 </style>
