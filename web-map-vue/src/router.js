@@ -64,6 +64,10 @@ const router = new VueRouter({
       path: '/login',
       beforeEnter: isUnloggedIn,
       component: LoginPage
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })
